@@ -1,8 +1,135 @@
 {% extends 'colasapp/layout.html' %} {% block body %}
 
-<div class="w-screen h-screen bg-gray-200 flex items-center justify-center">
- 
+<div class="grid grid-cols-2">
+  <div class="bg-white p-4 m-4 flex justify-center flex-col">
+    <h1 class="text-center pb-4">Variables</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+      <div class="">
+        <div class="space-y-4">
+          <div class="flex items-center gap-4">
+            <label class="whitespace-nowrap">Tasa de llegada Lambda</label>
+            <input
+                name="id_lambda"
+                class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+                type="text"
+                value={{lambda}}
+            />
+          </div>
 
+          <div class="flex items-center gap-4">
+            <label class="whitespace-nowrap">Tasa de servicio Mu</label>
+            <input
+            name="id_mu"
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{mu}}
+            />
+          </div>
+
+          <div class="flex items-center gap-4">
+            <label class="whitespace-nowrap">Numero de clientes</label>
+            <input
+            name="id_clientes"
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{clientes}}
+            />
+          </div>
+
+        </div>
+      </div>
+      <div class="w-full flex items-center justify-center mt-4">
+        <input  value="Calular" class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded" type="submit">
+      </input>
+      </div>
+    </form>
+  </div>
+
+  <div class="bg-white p-4 m-4">
+    <h1 class="text-center pb-4">Resultados</h1>
+    
+      <div class="">
+        <div class="space-y-2">
+          <div class="flex items-center gap-4">
+            <label>P</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{ro}}
+              
+            />
+          </div>
+
+          <div class="flex items-center gap-4">
+            <label>P0</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{p0}}
+            />
+          </div>
+
+          <div class="flex items-center gap-4">
+            <label>Pn</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{pn}}
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <label>Lq</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{lq}}
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <label>L</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{l}}
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <label>Wq</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{wq}}
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <label>W</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{w}}
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <label>Ln</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{ln}}
+            />
+          </div>
+          <div class="flex items-center gap-4">
+            <label>Wn</label>
+            <input
+              class="bg-gray-100 appearance-none border-2 border-gray-200 rounded w-full py-1 px-4 text-gray-700 focus:outline-none focus:bg-white focus:border-purple-500"
+              type="text"
+              value={{wn}}
+            />
+          </div>
+        </div>
+      </div>
+    
+  </div>
 </div>
 
 {% endblock %}
