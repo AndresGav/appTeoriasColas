@@ -61,7 +61,7 @@ def costoTiempoEsperaEnCola(lambd, mu, cte):
     return costoTiempoEspera
 
 
-def costoTiempoSistema(lambd, mu, cts):
+def costoTiempoEnSistema(lambd, mu, cts):
     costoTiempoEnSistema = lambd * 8 * tiempoEsperadoSistema(lambd, mu) * cts
     return costoTiempoEnSistema
 
@@ -75,4 +75,20 @@ def costoDiarioServidor(cs):
     return cs
 
 
-print(costoTiempoSistema(2, 6, 8.5))
+def costoTotalSistema(lambd, mu, cte, cts, ctse, cs):
+    costoTotal = costoTiempoEsperaEnCola(lambd, mu, cte) + costoTiempoEnSistema(
+        lambd, mu, cts) + costoTiempoServicio(lambd, mu, ctse) + costoDiarioServidor(cs)
+    return costoTotal
+
+
+def calcularFunciones(lambd, mu):
+    print("L", numEsperadoClienteSistema(lambd, mu))
+    print("Lq", numEsperadoClienteCola(lambd, mu))
+    print("Ln", numEsperadoClienteColaNoVacia(lambd, mu))
+    print("W", tiempoEsperadoSistema(lambd, mu))
+    print("Wq", tiempoEsperadoCola(lambd, mu))
+    print("Wn", tiempoEsperadoColaNoVacia(lambd, mu))
+
+
+calcularFunciones(2, 6)
+print(costoTiempoEnSistema(2,6,8.5))
