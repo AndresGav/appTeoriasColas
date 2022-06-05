@@ -3,150 +3,150 @@ import math
 from pydoc import cli
 
 
-def mMenosN(m, n):
+def mMenosNPFCS(m, n):
     return m-n
 
-def lambdaSobreMu(lambd, mu):
+def lambdaSobreMuPFCS(lambd, mu):
     return lambd / mu
 
 # La probabilidad de hallar el sistema vacío Po
-def probSistemaVacio(lambd, mu, m):
+def probSistemaVacioPFCS(lambd, mu, m):
     sumatoria = 0
     for n in range(m):
-        factorial = math.factorial(m) / math.factorial(mMenosN(m, n))
-        potencia = math.pow(lambdaSobreMu(lambd, mu), n)
+        factorial = math.factorial(m) / math.factorial(mMenosNPFCS(m, n))
+        potencia = math.pow(lambdaSobreMuPFCS(lambd, mu), n)
         sumatoria += (factorial * potencia)
     probSisVacio = 1 / sumatoria
     return probSisVacio
 
 # Probabilidad de hallar el sistema ocupado Pe
-def probSistemaOcupado(lambd, mu, m):
-    probSisOcupado = 1 - probSistemaVacio(lambd, mu, m)
+def probSistemaOcupadoPFCS(lambd, mu, m):
+    probSisOcupado = 1 - probSistemaVacioPFCS(lambd, mu, m)
     return probSisOcupado
 
 # La probabilidad de hallar exactamente n clientes dentro del sistema Pn
-def probHallarExactementeNClientesSistema(lambd, mu, m, n):
-    factorial = math.factorial(m) / math.factorial(mMenosN(m, n))
-    potencia = math.pow(lambdaSobreMu(lambd, mu), n)
-    probClienteN = factorial * potencia * probSistemaVacio(lambd, mu, m)
+def probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, n):
+    factorial = math.factorial(m) / math.factorial(mMenosNPFCS(m, n))
+    potencia = math.pow(lambdaSobreMuPFCS(lambd, mu), n)
+    probClienteN = factorial * potencia * probSistemaVacioPFCS(lambd, mu, m)
     return probClienteN
 
 # La probabilidad de hallar maximo n clientes dentro del sistema
-def probHallarMaxClientesSistema(lambd, mu, m, max):
+def probHallarMaxClientesSistemaPFCS(lambd, mu, m, max):
     sumatoria = 0
     for n in range(max+1):
-        sumatoria += probHallarExactementeNClientesSistema(lambd, mu, m, n)
+        sumatoria += probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, n)
     return sumatoria
 
 # La probabilidad de hallar al menos n clientes dentro del sistema
-def probHallarMinClienteSistema(lambd, mu, m, min):
+def probHallarMinClienteSistemaPFCS(lambd, mu, m, min):
     sumatoria = 0
     for n in range(min):
-        sumatoria += probHallarExactementeNClientesSistema(lambd, mu, m, n)
+        sumatoria += probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, n)
     return 1 - sumatoria
 
 # La probabilidad de hallar exactamente n clientes dentro del sistema
-def probHallarExactamenteNClientesCola(lambd, mu, m, n):
-    probClienteN = probHallarExactementeNClientesSistema(lambd, mu, m, n+1)
+def probHallarExactamenteNClientesColaPFCS(lambd, mu, m, n):
+    probClienteN = probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, n+1)
     return probClienteN
 
 # La probabilidad de hallar maximo n clientes en cola
-def probHallarMaxClientesCola(lambd, mu, m, max):
+def probHallarMaxClientesColaPFCS(lambd, mu, m, max):
     sumatoria = 0
     for n in range(max+2):
-        sumatoria += probHallarExactementeNClientesSistema(lambd, mu, m, n)
+        sumatoria += probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, n)
     return sumatoria
 
 # La probabilidad de hallar al menos n clientes en cola
-def probHallarMinClientesCola(lambd, mu, m, min):
+def probHallarMinClientesColaPFCS(lambd, mu, m, min):
     sumatoria = 0
     for n in range(min+1):
-        sumatoria += probHallarExactementeNClientesSistema(lambd, mu, m, n)
+        sumatoria += probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, n)
     return 1 - sumatoria
 
 # Número esperado de clientes en el sistema
-def numEsperadoClientesSistema(lambd, mu, m):
+def numEsperadoClientesSistemaPFCS(lambd, mu, m):
     cliEsperadosSistema = 0
     # for n in range(m+1):
     #     cliEsperadosSistema += n * probHallarExactementeNClientesSistema(lambd, mu, m, n)
     muSobreLambda = mu / lambd
-    cliEsperadosSistema = m - muSobreLambda * probSistemaOcupado(lambd, mu, m)
+    cliEsperadosSistema = m - muSobreLambda * probSistemaOcupadoPFCS(lambd, mu, m)
     return cliEsperadosSistema
 
 # Número esperado de clientes en la cola
-def numEsperadoClientesCola(lambd, mu, m):
+def numEsperadoClientesColaPFCS(lambd, mu, m):
     lambdMuSobreLambda = (lambd + mu) / lambd
-    cliEsperadosCola = m - (lambdMuSobreLambda * probSistemaOcupado(lambd, mu, m))
+    cliEsperadosCola = m - (lambdMuSobreLambda * probSistemaOcupadoPFCS(lambd, mu, m))
     return cliEsperadosCola
 
 # Número esperado de clientes en la cola no vacía
-def numEsperadoClienteColaNoVacia(lambd, mu, m):
-    cliColaNoVacia = numEsperadoClientesCola(lambd, mu, m) / probSistemaOcupado(lambd, mu, m)
+def numEsperadoClienteColaNoVaciaPFCS(lambd, mu, m):
+    cliColaNoVacia = numEsperadoClientesColaPFCS(lambd, mu, m) / probSistemaOcupadoPFCS(lambd, mu, m)
     return cliColaNoVacia
 
 # Tiempo esperado en el sistema
-def tiempoEsperadoSistema(lambd, mu, m):
-    tEsperadoSistema = tiempoEsperadoCola(lambd, mu, m) + (1/mu)
+def tiempoEsperadoSistemaPFCS(lambd, mu, m):
+    tEsperadoSistema = tiempoEsperadoColaPFCS(lambd, mu, m) + (1/mu)
     return tEsperadoSistema
 
 # Tiempo esperado en cola
-def tiempoEsperadoCola(lambd, mu, m):
-    tEsperadoCola = numEsperadoClientesCola(lambd, mu, m) / ((m - numEsperadoClientesSistema(lambd, mu, m)) * lambd)
+def tiempoEsperadoColaPFCS(lambd, mu, m):
+    tEsperadoCola = numEsperadoClientesColaPFCS(lambd, mu, m) / ((m - numEsperadoClientesSistemaPFCS(lambd, mu, m)) * lambd)
     return tEsperadoCola
 
 # Tiempo esperado en cola para colas no vacías
-def tiempoEsperadoColaNoVacia(lambd, mu, m):
-    tEsperadoColaNoVacia = tiempoEsperadoCola(lambd, mu, m) / probSistemaOcupado(lambd, mu, m)
+def tiempoEsperadoColaNoVaciaPFCS(lambd, mu, m):
+    tEsperadoColaNoVacia = tiempoEsperadoColaPFCS(lambd, mu, m) / probSistemaOcupadoPFCS(lambd, mu, m)
     return tEsperadoColaNoVacia
 
 
 # FORMULAS DE COSTOS
 # Costo Diario por el Tiempo de Espera en Cola
-def costoTiempoEsperaEnCola(lambd, mu, m, cte):
-    costoTiempoEspera = lambd * 8 * tiempoEsperadoCola(lambd, mu, m) * cte
+def costoTiempoEsperaEnColaPFCS(lambd, mu, m, cte):
+    costoTiempoEspera = lambd * 8 * tiempoEsperadoColaPFCS(lambd, mu, m) * cte
     return costoTiempoEspera
 
 # Costo Diario por el Tiempo en el Sistema 
-def costoTiempoEnSistema(lambd, mu, m, cts):
-    costoTiempoEnSistema = lambd * 8 * tiempoEsperadoSistema(lambd, mu, m) * cts
+def costoTiempoEnSistemaPFCS(lambd, mu, m, cts):
+    costoTiempoEnSistema = lambd * 8 * tiempoEsperadoSistemaPFCS(lambd, mu, m) * cts
     return costoTiempoEnSistema
 
 # Costo Diario por el Tiempo de Servicio
-def costoTiempoServicio(lambd, mu, ctse):
+def costoTiempoServicioPFCS(lambd, mu, ctse):
     costoTiempoDeServicio = lambd * 8 * (1/mu) * ctse
     return costoTiempoDeServicio
 
 # Costo Diario del Servidor
-def costoDiarioServidor(cs):
+def costoDiarioServidorPFCS(cs):
     return cs
 
 # Costo Total Diario del Sistema
-def costoTotalSistema(lambd, mu, m, cte, cts, ctse, cs):
-    costoTotal = costoTiempoEsperaEnCola(lambd, mu, m, cte) + costoTiempoEnSistema(
-        lambd, mu, m, cts) + costoTiempoServicio(lambd, mu, ctse) + costoDiarioServidor(cs)
+def costoTotalSistemaPFCS(lambd, mu, m, cte, cts, ctse, cs):
+    costoTotal = costoTiempoEsperaEnColaPFCS(lambd, mu, m, cte) + costoTiempoEnSistemaPFCS(
+        lambd, mu, m, cts) + costoTiempoServicioPFCS(lambd, mu, ctse) + costoDiarioServidorPFCS(cs)
     return costoTotal
 
 
 def prueba(lambd, mu, m):
     print("")
-    print("Sistema Vacio Po        : ", probSistemaVacio(lambd, mu, m))
-    print("Sistema Ocupado Pe      : ", probSistemaOcupado(lambd, mu, m))
+    print("Sistema Vacio Po        : ", probSistemaVacioPFCS(lambd, mu, m))
+    print("Sistema Ocupado Pe      : ", probSistemaOcupadoPFCS(lambd, mu, m))
     print("")
-    print("1 usuario Sistema       : ", probHallarExactementeNClientesSistema(lambd, mu, m, 1))
-    print("Max 2 usuarios Sistema  : ", probHallarMaxClientesSistema(lambd, mu, m, 2))
-    print("Min 2 usuarios Sistema  : ", probHallarMinClienteSistema(lambd, mu, m, 2))
+    print("1 usuario Sistema       : ", probHallarExactementeNClientesSistemaPFCS(lambd, mu, m, 1))
+    print("Max 2 usuarios Sistema  : ", probHallarMaxClientesSistemaPFCS(lambd, mu, m, 2))
+    print("Min 2 usuarios Sistema  : ", probHallarMinClienteSistemaPFCS(lambd, mu, m, 2))
     print("")
-    print("2 usuario en Cola       : ", probHallarExactamenteNClientesCola(lambd, mu, m, 2))
-    print("Max 2 usuario en Cola   : ", probHallarMaxClientesCola(lambd, mu, m, 2))
-    print("Min 1 usuario en Cola   : ", probHallarMinClientesCola(lambd, mu, m, 1))
+    print("2 usuario en Cola       : ", probHallarExactamenteNClientesColaPFCS(lambd, mu, m, 2))
+    print("Max 2 usuario en Cola   : ", probHallarMaxClientesColaPFCS(lambd, mu, m, 2))
+    print("Min 1 usuario en Cola   : ", probHallarMinClientesColaPFCS(lambd, mu, m, 1))
     print("")
-    print("Cliente en sistema L    : ", numEsperadoClientesSistema(lambd, mu, m))
-    print("Clientes en cola Lq     : ", numEsperadoClientesCola(lambd, mu, m))
-    print("Clientes en cola NA Ln  : ", numEsperadoClienteColaNoVacia(lambd, mu, m))
+    print("Cliente en sistema L    : ", numEsperadoClientesSistemaPFCS(lambd, mu, m))
+    print("Clientes en cola Lq     : ", numEsperadoClientesColaPFCS(lambd, mu, m))
+    print("Clientes en cola NA Ln  : ", numEsperadoClienteColaNoVaciaPFCS(lambd, mu, m))
     print("")
-    print("Tiempo en sistema W     : ", tiempoEsperadoSistema(lambd, mu, m))
-    print("Tiempo en cola Wq       : ", tiempoEsperadoCola(lambd, mu, m))
-    print("Tiempo en cola NA Wn    : ", tiempoEsperadoColaNoVacia(lambd, mu, m))
+    print("Tiempo en sistema W     : ", tiempoEsperadoSistemaPFCS(lambd, mu, m))
+    print("Tiempo en cola Wq       : ", tiempoEsperadoColaPFCS(lambd, mu, m))
+    print("Tiempo en cola NA Wn    : ", tiempoEsperadoColaNoVaciaPFCS(lambd, mu, m))
 
 prueba(0.1, 0.5, 4)
 # revisar los numeros esperados de clietnes y los tiempos
