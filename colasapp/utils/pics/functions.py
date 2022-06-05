@@ -10,13 +10,11 @@ def probSistemaVacio(lambd, mu):
     vacio = 1 - probSistemaOcupado(lambd, mu)
     return vacio
 
-
 #  La probabilidad de hallar exactamente n clientes dentro del sistema Pn
 def probHallarExactamenteNClientesSistema(lambd, mu, n):
     probClienteN = probSistemaVacio(
         lambd, mu) * math.pow((probSistemaOcupado(lambd, mu)), n)
     return probClienteN
-
 
 #  La probabilidad de hallar maximo n clientes dentro del sistema
 def probHallarMaxNClientesSistema(lambd, mu, max):
@@ -33,30 +31,22 @@ def probHallarMinNClientesSistema(lambd, mu, min):
     return 1 - sumatoria
 
 #  La probabilidad de hallar exactamente n clientes en cola
-# Hay que pasar el valor de n ya sumado para utilizar solo una funcion
 def probHallarExactamenteNClientesCola(lambd, mu, n):
-    probClienteN = probSistemaVacio(
-        lambd, mu) * math.pow((probSistemaOcupado(lambd, mu)), n+1)
-    return probClienteN
-
-
-def probHallarMaxMinNClient(lambd, mu, n):
-    probClienteN = probSistemaVacio(
-        lambd, mu) * math.pow((probSistemaOcupado(lambd, mu)), n)
+    probClienteN = probHallarExactamenteNClientesSistema(lambd, mu, n+1)
     return probClienteN
 
 #  La probabilidad de hallar maximo n clientes en cola
 def probHallarMaxNClientesCola(lambd, mu, max):
     sumatoria = 0
     for n in range(max+2):
-        sumatoria += probHallarMaxMinNClient(lambd, mu, n)
+        sumatoria += probHallarExactamenteNClientesSistema(lambd, mu, n)
     return sumatoria
 
 #  La probabilidad de hallar al menos n clientes en cola
 def probHallarMinNClientesCola(lambd, mu, min):
     sumatoria = 0
     for n in range(min+1):
-        sumatoria += probHallarMaxMinNClient(lambd, mu, n)
+        sumatoria += probHallarExactamenteNClientesSistema(lambd, mu, n)
     return 1 - sumatoria
 
 
@@ -123,12 +113,12 @@ def costoTotalSistema(lambd, mu, cte, cts, ctse, cs):
 
 
 def calcularFunciones(lambd, mu):
-    print("L", numEsperadoClienteSistema(lambd, mu))
-    print("Lq", numEsperadoClienteCola(lambd, mu))
-    print("Ln", numEsperadoClienteColaNoVacia(lambd, mu))
-    print("W", tiempoEsperadoSistema(lambd, mu))
-    print("Wq", tiempoEsperadoCola(lambd, mu))
-    print("Wn", tiempoEsperadoColaNoVacia(lambd, mu))
+    print("Clientes en Sistema L   : ", numEsperadoClienteSistema(lambd, mu))
+    print("Clientes en Cola Lq     : ", numEsperadoClienteCola(lambd, mu))
+    print("Clientes en Cola NA Ln  : ", numEsperadoClienteColaNoVacia(lambd, mu))
+    print("Tiempo en sistema W     : ", numEsperadoClienteSistema(lambd, mu))
+    print("Tiempo en Cola Wq       : ", tiempoEsperadoCola(lambd, mu))
+    print("Tiempo en Cola NA Wn    : ", tiempoEsperadoColaNoVacia(lambd, mu))
 
 
 print("")
