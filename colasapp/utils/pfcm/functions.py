@@ -86,7 +86,7 @@ def numEsperadoClientesCola(lambd, mu, m, k):
         cliEsperadoCola += (n-k) * probHallarExactamenteNClientesSistema(lambd, mu, m, k, n)
     return cliEsperadoCola
 
-def numEsperadoClienteColaNoVacia(lambd, mu, m, k):
+def numEsperadoClientesColaNoVacia(lambd, mu, m, k):
     cliColaNoVacia = numEsperadoClientesCola(lambd, mu, m, k) / probSistemaOcupado(lambd, mu, m, k)
     return cliColaNoVacia
 
@@ -95,30 +95,34 @@ def tiempoEsperadoSistema(lambd, mu, m, k):
     return tEsperadoSistema
 
 def tiempoEsperadoCola(lambd, mu, m, k):
-    tEsperadoCola = numEsperadoClientesCola(lambd, mu, m, k) / ((m - numEsperadoClientesSistema(lambd, mu, m, k)) * lambd)
+    mMenosL = m - numEsperadoClientesSistema(lambd, mu, m, k)
+    tEsperadoCola = numEsperadoClientesCola(lambd, mu, m, k) / (mMenosL * lambd)
     return tEsperadoCola
 
 def tiempoEsperadoColaNoVacia(lambd, mu, m, k):
     tEsperadoColaNoVacia = tiempoEsperadoCola(lambd, mu, m, k) / probSistemaOcupado(lambd, mu, m, k)
     return tEsperadoColaNoVacia
 
-print("")
-print("Sistema Vacio Po        : ", probSistemaVacio(0.1, 0.5, 4, 2))
-print("Sistema Ocupado Pe      : ", probSistemaOcupado(0.1, 0.5, 4, 2))
-print("Prob No Esperar Pne     : ", probNoEsperar(0.1, 0.5, 4, 2))
-print("")
-print("1 Usuario Sistema       : ", probHallarExactamenteNClientesSistema(0.1, 0.5, 4, 2, 1))
-print("Max 2 usuario Sistema   : ", probHallarMaxClientesSistema(0.1, 0.5, 4, 2, 2))
-print("Min 2 usuario Sistema   : ", probHallarMinClientesSistema(0.1, 0.5, 4, 2, 2))
-print("")
-print("2 Usuario Cola          : ", probHallarExactamenteNClientesCola(0.1, 0.5, 4, 2, 2))
-print("Max 2 usuario Cola      : ", probHallarMaxClientesCola(0.1, 0.5, 4, 2, 2))
-print("Min 1 usuario Cola      : ", probHallarMinClientesCola(0.1, 0.5, 4, 2, 1))
-print("")
-print("Clientes Sistema L      : ", numEsperadoClientesSistema(0.1, 0.5, 4, 2))
-print("Clientes Cola Lq        : ", numEsperadoClientesCola(0.1, 0.5, 4, 2))
-print("Cliente Cola NA Ln      : ", numEsperadoClienteColaNoVacia(0.1, 0.5, 4, 2))
-print("")
-print("Tiempo en sistema W     : ", tiempoEsperadoSistema(0.1, 0.5, 4, 1))
-print("Tiempo en cola Wq       : ", tiempoEsperadoCola(0.1, 0.5, 4, 1))
-print("Tiempo en cola NA Wn    : ", tiempoEsperadoColaNoVacia(0.1, 0.5, 4, 1))
+def prueba(lambd, mu, m, k):
+    print("")
+    print("Sistema Vacio Po        : ", probSistemaVacio(lambd, mu, m, k))
+    print("Sistema Ocupado Pe      : ", probSistemaOcupado(lambd, mu, m, k))
+    print("Prob No Esperar Pne     : ", probNoEsperar(lambd, mu, m, k))
+    print("")
+    print("1 Usuario Sistema       : ", probHallarExactamenteNClientesSistema(lambd, mu, m, k, 1))
+    print("Max 2 usuario Sistema   : ", probHallarMaxClientesSistema(lambd, mu, m, k, 2))
+    print("Min 2 usuario Sistema   : ", probHallarMinClientesSistema(lambd, mu, m, k, 2))
+    print("")
+    print("2 Usuario Cola          : ", probHallarExactamenteNClientesCola(lambd, mu, m, k, 2))
+    print("Max 2 usuario Cola      : ", probHallarMaxClientesCola(lambd, mu, m, k, 2))
+    print("Min 1 usuario Cola      : ", probHallarMinClientesCola(lambd, mu, m, k, 1))
+    print("")
+    print("Clientes Sistema L      : ", numEsperadoClientesSistema(lambd, mu, m, k))
+    print("Clientes Cola Lq        : ", numEsperadoClientesCola(lambd, mu, m, k))
+    print("Cliente Cola NA Ln      : ", numEsperadoClientesColaNoVacia(lambd, mu, m, k))
+    print("")
+    print("Tiempo en sistema W     : ", tiempoEsperadoSistema(lambd, mu, m, k))
+    print("Tiempo en cola Wq       : ", tiempoEsperadoCola(lambd, mu, m, k))
+    print("Tiempo en cola NA Wn    : ", tiempoEsperadoColaNoVacia(lambd, mu, m, k))
+
+prueba(0.1, 0.5, 4, 2)

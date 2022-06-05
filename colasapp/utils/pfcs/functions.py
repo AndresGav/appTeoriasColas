@@ -127,29 +127,27 @@ def costoTotalSistema(lambd, mu, m, cte, cts, ctse, cs):
     return costoTotal
 
 
-# print("Sistema Vacio Po        : ", probSistemaVacio(0.1, 0.5, 4))
-# print("Sistema Ocupado Pe      : ", probSistemaOcupado(0.1, 0.5, 4))
-# print("")
-# print("2 usuario Sistema       : ", probHallarExactementeNClientesSistema(0.1, 0.5, 4, 2))
-# print("Max 2 usuarios Sistema  : ", probHallarMaxClientesSistema(0.1, 0.5, 4, 2))
-# print("Min 2 usuarios Sistema  : ", probHallarMinClienteSistema(0.1, 0.5, 4, 2))
-# print("")
-# print("2 usuario en Cola       : ", probHallarExactamenteNClientesCola(0.1, 0.5, 4, 2))
-# print("Max 2 usuario en Cola   : ", probHallarMaxClientesCola(0.1, 0.5, 4, 2))
-# print("Min 1 usuario en Cola   : ", probHallarMinClientesCola(0.1, 0.5, 4, 1))
-# print("")
-# print("Cliente en sistema L    : ", numEsperadoClientesSistema(0.1, 0.5, 4))
-# print("Clientes en cola Lq     : ", numEsperadoClientesCola(0.1, 0.5, 4))
-# print("Clientes en cola NA Ln  : ", numEsperadoClienteColaNoVacia(0.1, 0.5, 4))
-# print("")
-# print("Tiempo en sistema W     : ", tiempoEsperadoSistema(0.1, 0.5, 4))
-# print("Tiempo en cola Wq       : ", tiempoEsperadoCola(0.1, 0.5, 4))
-# print("Tiempo en cola NA Wn    : ", tiempoEsperadoColaNoVacia(0.1, 0.5, 4))
+def prueba(lambd, mu, m):
+    print("")
+    print("Sistema Vacio Po        : ", probSistemaVacio(lambd, mu, m))
+    print("Sistema Ocupado Pe      : ", probSistemaOcupado(lambd, mu, m))
+    print("")
+    print("1 usuario Sistema       : ", probHallarExactementeNClientesSistema(lambd, mu, m, 1))
+    print("Max 2 usuarios Sistema  : ", probHallarMaxClientesSistema(lambd, mu, m, 2))
+    print("Min 2 usuarios Sistema  : ", probHallarMinClienteSistema(lambd, mu, m, 2))
+    print("")
+    print("2 usuario en Cola       : ", probHallarExactamenteNClientesCola(lambd, mu, m, 2))
+    print("Max 2 usuario en Cola   : ", probHallarMaxClientesCola(lambd, mu, m, 2))
+    print("Min 1 usuario en Cola   : ", probHallarMinClientesCola(lambd, mu, m, 1))
+    print("")
+    print("Cliente en sistema L    : ", numEsperadoClientesSistema(lambd, mu, m))
+    print("Clientes en cola Lq     : ", numEsperadoClientesCola(lambd, mu, m))
+    print("Clientes en cola NA Ln  : ", numEsperadoClienteColaNoVacia(lambd, mu, m))
+    print("")
+    print("Tiempo en sistema W     : ", tiempoEsperadoSistema(lambd, mu, m))
+    print("Tiempo en cola Wq       : ", tiempoEsperadoCola(lambd, mu, m))
+    print("Tiempo en cola NA Wn    : ", tiempoEsperadoColaNoVacia(lambd, mu, m))
 
-def prueba():
-    print("Sistema Vacio Po        : ", probSistemaVacio(0.1, 0.5, 4))
-    print("Cliente en sistema L    : ", numEsperadoClientesSistema(0.1, 0.5, 4))
-    print("Costo Sistema L         : ", costoTiempoEnSistema(0.1, 0.5, 4, 20))
-    print("Costo Servidor L        : ", costoDiarioServidor(50))
-
-prueba()
+prueba(0.1, 0.5, 4)
+# revisar los numeros esperados de clietnes y los tiempos
+# no cuadran con los valores de prueba del pdf
