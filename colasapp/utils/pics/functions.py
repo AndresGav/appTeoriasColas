@@ -1,3 +1,4 @@
+from ast import Lambda
 import math
 
 # Probabilidad de hallar el sistema ocupado P
@@ -87,51 +88,63 @@ def tiempoEsperadoColaNoVacia(lambd, mu):
 
 # FORMULAS DE COSTOS
 # Costo Diario por el Tiempo de Espera en Cola
-def costoTiempoEsperaEnCola(lambd, mu, cte):
-    costoTiempoEspera = lambd * 8 * tiempoEsperadoCola(lambd, mu) * cte
+def costoTiempoEsperaEnCola(lambd, h, mu, cte):
+    costoTiempoEspera = lambd * h * tiempoEsperadoCola(lambd, mu) * cte
     return costoTiempoEspera
 
 # Costo Diario por el Tiempo en el Sistema 
-def costoTiempoEnSistema(lambd, mu, cts):
-    costoTiempoEnSistema = lambd * 8 * tiempoEsperadoSistema(lambd, mu) * cts
+def costoTiempoEnSistema(lambd, mu, h, cts):
+    costoTiempoEnSistema = lambd * h * tiempoEsperadoSistema(lambd, mu) * cts
     return costoTiempoEnSistema
 
 # Costo Diario por el Tiempo de Servicio
-def costoTiempoServicio(lambd, mu, ctse):
-    costoTiempoDeServicio = lambd * 8 * (1/mu) * ctse
+def costoTiempoServicio(lambd, mu, h, ctse):
+    costoTiempoDeServicio = lambd * h * (1/mu) * ctse
     return costoTiempoDeServicio
 
 # Costo Diario del Servidor
-def costoDiarioServidor(cs):
-    return cs
+def costoDiarioServidor(k, cs):
+    return k * cs
 
 # Costo Total Diario del Sistema
-def costoTotalSistema(lambd, mu, cte, cts, ctse, cs):
-    costoTotal = costoTiempoEsperaEnCola(lambd, mu, cte) + costoTiempoEnSistema(
-        lambd, mu, cts) + costoTiempoServicio(lambd, mu, ctse) + costoDiarioServidor(cs)
+def costoTotalSistema(lambd, mu, h, k, cte, cts, ctse, cs):
+    costoTotal = costoTiempoEsperaEnCola(lambd, mu,h, cte) + costoTiempoEnSistema(
+        lambd, mu, h, cts) + costoTiempoServicio(lambd, mu, h, ctse) + costoDiarioServidor(k, cs)
     return costoTotal
 
-
 def prueba(lambd, mu):
+    print("")
+    print("Lambda                  : ", lambd)
+    print("Mu                      : ", mu)
     print("")
     print("Sistema Ocupado         : ", probSistemaOcupado(lambd, mu))
     print("Sistema Vacio           : ", probSistemaVacio(lambd, mu))
     print("")
     print("Un usuario Sistema      : ", probHallarExactamenteNClientesSistema(lambd, mu, 1))
-    print("Max 2 usuarios Sistema  : ", probHallarMaxNClientesSistema(lambd, mu, 2))
-    print("Al menos 2 Sistema      : ", probHallarMinNClientesSistema(lambd, mu, 2))
-    print("")
-    print("2 usuario Cola          : ", probHallarExactamenteNClientesCola(lambd, mu, 2))
-    print("Max 2 usuarios Cola     : ", probHallarMaxNClientesCola(lambd, mu, 2))
-    print("Al menos 1 usuario Cola : ", probHallarMinNClientesCola(lambd, mu, 1))
+    print("Un usuario Sistema      : ", probHallarExactamenteNClientesSistema(lambd, mu, 2))
+    print("Un usuario Sistema      : ", probHallarExactamenteNClientesSistema(lambd, mu, 3))
+    # print("Max 2 usuarios Sistema  : ", probHallarMaxNClientesSistema(lambd, mu, 2))
+    # print("Al menos 2 Sistema      : ", probHallarMinNClientesSistema(lambd, mu, 2))
+    # print("")
+    # print("2 usuario Cola          : ", probHallarExactamenteNClientesCola(lambd, mu, 2))
+    # print("Max 2 usuarios Cola     : ", probHallarMaxNClientesCola(lambd, mu, 2))
+    print("Al menos 2 usuario Cola : ", probHallarMinNClientesCola(lambd, mu, 2))
     print("")
     print("Clientes en Sistema L   : ", numEsperadoClienteSistema(lambd, mu))
     print("Clientes en Cola Lq     : ", numEsperadoClienteCola(lambd, mu))
     print("Clientes en Cola NA Ln  : ", numEsperadoClienteColaNoVacia(lambd, mu))
     print("")
-    print("Tiempo en sistema W     : ", numEsperadoClienteSistema(lambd, mu))
+    print("Tiempo en sistema W     : ", tiempoEsperadoSistema(lambd, mu))
     print("Tiempo en Cola Wq       : ", tiempoEsperadoCola(lambd, mu))
     print("Tiempo en Cola NA Wn    : ", tiempoEsperadoColaNoVacia(lambd, mu))
+    print("")
 
+# print("")
+# print("Sistema Lento")
+# # prueba(lambd=4, mu=2500)
+# print("Costo de espera ", costoTotalSistema(lambd=4, mu=6, h=24, k=1, cte=0, cts=5000, ctse=0, cs=2500))
 
-prueba(10, 15)
+# print("Sistema Rápido")
+# print("Costo de espera ", costoTotalSistema(lambd=4, mu=8, h=24, k=1, cte=0, cts=5000, ctse=0, cs=4500))
+
+prueba(lambd=120, mu=60)
